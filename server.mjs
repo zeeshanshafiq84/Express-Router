@@ -1,29 +1,29 @@
 import express from 'express';
-import cors from 'cors';  
+import cors from 'cors';
 import path from 'path';
-const __dirname = path.resolve()
+const __dirname = path.resolve();
 
-const app = express()
-app.use(cors())
-
-app.get('/profile',(req, res) =>{
-  console.log('this is profile!', new Date());
-  res.send('this is profile' + new Date());
-})
-
-app.get('weather/:cityName', (req, res) => {
-  console.log('this is profile!', new Date());
-
-  console.log("req.params.cityName: ", req.params.cityName);
+import apiv1Router from './apiv1/index.mjs'
+import apiv2Router from './apiv2/index.mjs'
 
 
-    
+const app = express();
+app.use(express.json()); // body parser
+// app.use(cors())
 
-})
 
-app.use('/', express.static(path.join(__dirname, 'public')))
 
-const PORT = process.env.PORT || 3000
+app.use("/api/v1", apiv1Router)
+app.use("/api/v2", apiv2Router)
+
+
+
+//     /static/vscode_windows.exe
+// app.use("/static", express.static(path.join(__dirname, 'static')))
+
+app.use(express.static(path.join(__dirname, 'public')))
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
-})  
+    console.log(`Example server listening on port ${PORT}`)
+})
