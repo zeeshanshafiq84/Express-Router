@@ -1,0 +1,35 @@
+*{
+    color: white!important;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    row-gap: 1.5rem;
+    background: rgb(10,159,153);
+    background: linear-gradient(0deg, rgba(10,159,153,1) 0%, rgba(45,49,253,1) 75%);
+    width: 100vw;
+    height: 100vh;
+    padding: 2rem;
+
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: right;
+}
+
+.input{
+    color: black!important;
+}
+
+.row{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: right;
+}
