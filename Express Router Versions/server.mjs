@@ -1,10 +1,13 @@
+
 import express from 'express';
-// import cors from 'cors';
+//import cors from `express`
 import path from 'path';
 const __dirname = path.resolve();
 
 import apiv1Router from './apiv1/index.mjs'
 import apiv2Router from './apiv2/index.mjs'
+
+
 
 
 const app = express();
@@ -26,4 +29,6 @@ app.use(express.static(path.join(__dirname, 'apiv1/public')))
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Example server listening on port ${PORT}`)
-})
+}) 
+
+

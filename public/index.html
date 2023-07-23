@@ -8,147 +8,37 @@
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
-    <style>
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'poppins', sans-serif;
-    box-sizing: border-box;
-  }
-  
-  body {
-    
-    background-image: url('https://source.unsplash.com/1600x900/?weather');
-    
-  }
-  
-  .card {
-    width: 90%;
-    max-width: 470px;
-    color: #fff;
-    margin: 100px auto 0;
-    border-radius: 20px;
-    padding: 40px 35px;
-    text-align: center;
-  }
-  
-  .search {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .search input {
-    border: 0;
-    outline: 0;
-    background: #ebfffc;
-    color: #555;
-    padding: 10px 25px;
-    height: 60px;
-    border-radius: 30px;
-    flex: 1;
-    margin-right: 16px;
-    font-size: 18px;
-  }
-  
-  .search button {
-    border: 0;
-    outline: 0;
-    background: #ebfffc;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-  }
-  
-  .search button img {
-    width: 16px;
-  }
-  
-  .weather-icon {
-    width: 170px;
-    margin-top: 30px;
-  }
-  
-  .weather h1 {
-    font-size: 40px;
-    font-weight: 500;
-  }
-  
-  .weather h2 {
-    font-size: 45px;
-    font-weight: 400;
-    margin-top: -10px;
-  }
-  
-  .details {
-    display: flex;
-    flex-wrap: wrap; /* Added this to wrap columns */
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    margin-top: 50px;
-  }
-  
-  .col {
-    display: flex;
-    align-items: center;
-    text-align: left;
-    flex-basis: 50%; /* Added this to make columns 50% width */
-    margin-bottom: 10px; /* Added this for spacing between columns */
-  }
-  
-  .col img {
-    width: 40px;
-    margin-right: 10px;
-  }
-  
-  .humidity,
-  .wind {
-    font-size: 28px;
-    margin-top: -6px;
-  }
-          
+    <body onload="getAllPost()">
 
-    </style>
-</head>
-<body>
-    
-    <div class="card">
-        <div class="search">
-            <form onsubmit="getWeather(event)">
-            <input type="text" name="cityName" id="cityName" placeholder="Enter City Name" spellcheck="false">
-            <button type="submit"><img src="images/search.png" ></button>
-        </form>
-        </div>
-        <div id="result">
 
-        </div>
-        <div class="weather">
-            <img src="images/rain.png" class="weather-icon" >
+      <h1>My post CRUD app </h1>
+  
+      <form onsubmit="createPost(); return false">
+  
+          <h2>Create a post:</h2>
+  
+          <label for="postTitle">Title:</label>
+          <input type="text" name="postTitle" id="postTitle" placeholder="enter your city name">
+  
+          <br>
+          <label for="postText">Text:</label>
+          <input type="text" name="postText" id="postText" placeholder="enter your city name">
+  
+          <br>
+  
+          <button type="submit">Submit Post</button>
+  
+          <br>
+          <br>
+          <br>
+      </form>
+  
+      <div id="result"></div>
+      <br>
+      <br>
+      <div id="posts"></div>
 
-            <h1 class="temp">22°c</h1>
-            <h2 class="city"></h2>
-            <div class="details">
-                <div class="col">
-                    <img src="images/humidity.png">
-                    <div>
-                        <p class="humidity">50%</p>
-                        <p>Humidity</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <img src="images/wind.png">
-                    <div>
-                        <p class="wind">15 km/h</p>
-                        <p>Wind Speed</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     
     

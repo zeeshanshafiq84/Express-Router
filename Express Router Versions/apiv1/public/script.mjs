@@ -1,119 +1,173 @@
 window.createPost = function () {
 
-  let postTitle = document.querySelector("#postTitle").value;
-  let postText = document.querySelector("#postText").value;
+    let postTitle = document.querySelector("#postTitle").value;
+    let postText = document.querySelector("#postText").value;
 
-  // baseUrl/api/v1/post
-  axios.post(`/api/v1/post`, {
-      title: postTitle,
-      text: postText
-  })
-      .then(function (response) {
-          console.log(response.data);
-          document.querySelector("#result").innerHTML = response.data;
-          
-          getAllPost();
-      })
-      .catch(function (error) {
-          // handle error
-          console.log(error.data);
-          document.querySelector("#result").innerHTML = "error in post submission"
-      })
+    // baseUrl/api/v1/post
+    axios.post(`/api/v1/post`, {
+        title: postTitle,
+        text: postText
+    })
+        .then(function (response) {
+            console.log(response.data);
+            document.querySelector("#result").innerHTML = response.data;
+            getAllPost();
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error.data);
+            document.querySelector("#result").innerHTML = "error in post submission"
+        })
 }
 
-function renderPost() {
+
+
+
+window.getAllPost = function () {
+
+
     // baseUrl/api/v1/post
     axios.get(`/api/v1/posts`)
         .then(function (response) {
-            let posts = response.data;
-            let postContainer = document.querySelector(".result");
-            postContainer.innerHTML = "";
+            console.log(response.data);
 
-            // Loop through the posts and create elements for each post
-            posts.forEach(function (post) {
-                let postElement = document.createElement("div");
-                postElement.className += " post"
+            document.querySelector("#posts").innerHTML = "";
 
-                let titleElement = document.createElement("h2");
-                titleElement.textContent = post.title;
-                postElement.appendChild(titleElement);
 
-                let textElement = document.createElement("p");
-                textElement.textContent = post.text;
-                postElement.appendChild(textElement);
-                postElement.dataset.postId = post.id;
+            response.data.forEach((data, index) => {
 
-                let row =  document.createElement("div")
-                row.className += " space-around"
+            let posts = document.getElementById("posts");
+            let postCard = document.createElement("div");
+            postCard.classList.add("post-Card");
+            let postCardTitle = document.createElement("div");
+            postCardTitle.classList.add("post-Card-title");
+            let postCardContent = document.createElement("div");
+            postCardContent.classList.add("post-Card-content");
+            let titleText = document.createTextNode(data.title);
+            let contentText = document.createTextNode(data.text);
+            let editButton = document.createElement("button");
+            editButton.innerHTML = `Edit Post`;
+            editButton.classList.add("edit-button");
+            editButton.setAttribute("ref", data.id);
+            editButton.addEventListener("click", edit);
+            let deleteButton = document.createElement("button");
+            deleteButton.innerHTML = `Delete`;
+            deleteButton.classList.add("delete-button");
+            deleteButton.setAttribute("ref", data.id);
+            deleteButton.addEventListener("click", deletePost);
+            let buttonsDiv = document.createElement("div");
+            postCardTitle.appendChild(titleText);
+            postCardContent.appendChild(contentText);
+            postCard.appendChild(postCardTitle);
+            postCard.appendChild(postCardContent);
+            buttonsDiv.appendChild(editButton);
+            buttonsDiv.appendChild(deleteButton);
+            postCard.appendChild(buttonsDiv);
+            posts.appendChild(postCard);
 
-                let regards = document.createElement("p")
-                regards.className += " regards"
-                regards.textContent = "Zeeshan"
-                row.appendChild(regards)
 
-                let edit = document.createElement("i")
-                edit.className += " regards bi bi-pencil-fill"
-                // edit.addEventListener("click", edit)
-                row.appendChild(edit)
 
-                let del = document.createElement("i")
-                del.className += " regards bi bi-trash-fill"
-                del.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    let postId = this.parentNode.parentNode.dataset.postId;
-                    deletePost(postId);
-                });
-                
-                row.appendChild(del)
 
-                postElement.appendChild(row)
-                postContainer.appendChild(postElement);
-            });
+        })
+            
+
+
+
+
+            
         })
         .catch(function (error) {
-            console.log(error.data);
-        });
+            // handle error
+            console.log(error);
+            document.querySelector("#result").innerHTML = "error in post submission"
+        })
+
+
+
+
+
 }
 
 
-// GET  ALL   POSTS   /api/v1/posts/
-router.get('/post/:postId', (req, res, next) => {
-    console.log('this is signup!', new Date());
-
-    for (let i = 0; i < posts.length; i++) {
-        if (posts[i].id === Number(req.params.postId)) {
-            res.send(posts[i]);
-            return;
-        }
-    }
-    res.send('post not found with id ' + req.params.postId);
-})
-
-//GET  ONE   POST   /api/v1/post/:postId
-router.get('/posts', (req, res, next) => {
-    console.log('this is signup!', new Date());
-    res.send(posts);
-})
-
-// DELETE  /api/v1/post/:postId
-router.delete('/post/:postId', (req, res, next) => {
-    console.log('this is signup!', new Date());
-
-    const postId = req.params.postId;
-
-    // Find the post index in the posts array
-    const postIndex = posts.findIndex(post => post.id === postId);
-
-    // If the post with the given ID exists, remove it
-    if (postIndex !== -1) {
-        posts.splice(postIndex, 1);
-        res.send('Post deleted');
-    } else {
-        res.status(404).send('Post not found');
-    }
-});
-
-export default router
+let edit = (event)=>{
 
 
+    
+    console.log(event.target.parentNode);
+    let theRef = event.target.attributes.ref.value;
+    console.log(theRef);
 
+
+    let title = event.target.parentNode.parentNode.firstChild.innerHTML;
+    let text = event.target.parentNode.parentNode.children[1].innerHTML;
+    console.log(text);
+    let parentDiv = event.target.parentNode.parentNode
+    parentDiv.innerHTML = "";
+    let editTitle = document.createElement(`input`);
+    editTitle.type = 'text';
+    editTitle.value = title;
+    let editText = document.createElement(`input`);
+    editText.type = 'text';
+    editText.value = text;
+    let saveButton = document.createElement(`button`);
+    saveButton.type = 'submit';
+    saveButton.innerHTML = 'Save';
+    saveButton.setAttribute('referer', theRef)
+    saveButton.addEventListener('click', save);
+
+    parentDiv.appendChild(editTitle);
+    parentDiv.appendChild(editText);
+    parentDiv.appendChild(saveButton);
+
+}
+
+
+let save = (event)=> {
+
+    let editRef = event.target.attributes.referer.value;
+    let theTitle = event.target.parentNode.firstChild.value;
+    let theText = event.target.parentNode.children[1].value;
+    console.log(editRef);
+
+    axios.put(`/api/v1/post/edit/${editRef}`, {
+
+        title: theTitle,
+        text: theText,
+
+    })
+    .then( (response)=>{
+
+        console.log("done");
+        getAllPost();
+
+    })
+    .catch( (err)=>{
+
+        console.log(err);
+
+    });
+
+
+};
+
+let deletePost = (event)=>{
+
+
+    let delRef = event.target.getAttribute('ref');
+    console.log(delRef);
+
+    axios.delete(`/api/v1/post/delete/${delRef}`,)
+    .then( (response)=>{
+
+        console.log("deleted");
+        getAllPost();
+
+    })
+    .catch( (err)=>{
+
+        console.log(err);
+
+    });
+
+
+}
